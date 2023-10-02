@@ -6,9 +6,6 @@ export default function Home() {
 
   return (
     <>
-      <Link href="/standings">
-        順位表
-      </Link>
     </>
   );
 }
