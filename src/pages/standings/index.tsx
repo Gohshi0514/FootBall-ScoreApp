@@ -2,11 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import useSWR from 'swr';
 import Spinner from '@/components/Spinner';
+import { StandingsData, Team } from '@/types/types';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const Standings: React.FC = () => {
-    const { data: standingsData, error: standingsError } = useSWR('/api/standings', fetcher);
+    const { data: standingsData, error: standingsError } = useSWR<StandingsData>('/api/standings', fetcher);
 
     if (standingsError)
         return (
@@ -16,7 +17,7 @@ const Standings: React.FC = () => {
         );
     if (!standingsData)
         return (
-            <div className='flex items-center justify-center w-full h-screen'>
+            <div className='flex items-center   justify-center w-full h-screen'>
                 <Spinner />
             </div>
         );
@@ -48,11 +49,11 @@ const Standings: React.FC = () => {
                             <th className='w-1/12 flex-none flex-shrink-0 hidden md:table-cell'>得失点差</th>
                         </tr>
                     </thead>
-                    <tbody className='flex flex-col w-full text-center divide-y divide-gray-300 bg-gray-100'>
-                        {standingsData.standings[0].table.map((team: any) => {
+                    <tbody className='flex flex-col w-full text-center divide-y divide-gray-300'>
+                        {standingsData.standings[0].table.map((team: Team) => {
                             return (
                                 <tr
-                                    key={team.team.id}
+                                    key={team.id}
                                     className='flex flex-row justify-around w-full p-2 hover:bg-gray-200'
                                 >
                                     <td className='w-1/12 flex-none flex-shrink-0 font-medium text-sm md:text-lg'>
@@ -61,7 +62,7 @@ const Standings: React.FC = () => {
                                     <td className='flex flex-row items-center justify-center w-1/12 flex-none flex-shrink-0'>
                                         <Image
                                             src={team.team.crest}
-                                            alt={`${team.team.name} エンブレム`}
+                                            alt={`${team.name} エンブレム`}
                                             className='rounded-full'
                                             width={30}
                                             height={30}
