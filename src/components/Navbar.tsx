@@ -12,7 +12,7 @@ const Navbar = () => {
         <ul className="flex flex-row">
           <li className="mr-6">
             <Link href="/">
-              Home
+              試合結果 / 日程
             </Link>
           </li>
           <li className="mr-6">
