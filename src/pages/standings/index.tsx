@@ -1,8 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import useSWR from 'swr';
-import Spinner from '@/components/Spinner';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -12,13 +13,13 @@ const Standings: React.FC = () => {
     if (standingsError)
         return (
             <div className='flex items-center justify-center w-full h-screen'>
-                <div>データの取得中にエラーが発生しました。</div>
+                <Error />
             </div>
         );
     if (!standingsData)
         return (
             <div className='flex items-center   justify-center w-full h-screen'>
-                <Spinner />
+                <Loading />
             </div>
         );
 
@@ -71,7 +72,7 @@ const Standings: React.FC = () => {
                                             {/* {team.team.name} */}
                                         </small>
                                     </td>
-                                    <td className='w-1/12 flex-none flex-shrink-0 md:text-gray-600'>{team.points}</td>
+                                    <td className='w-1/12 flex-none flex-shrink-0 md:text-gray-600 font-bold'>{team.points}</td>
                                     <td className='w-1/12 flex-none flex-shrink-0 md:text-gray-600 hidden md:table-cell'>{team.playedGames}</td>
                                     <td className='w-1/12 flex-none flex-shrink-0 md:text-gray-600 hidden md:table-cell'>{team.won}</td>
                                     <td className='w-1/12 flex-none flex-shrink-0 md:text-gray-600 hidden md:table-cell'>{team.draw}</td>

@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 
-const API_TOKEN = 'db1a7f7f832949dc81807387c859b19c'; // あなたのAPIトークンを入れてください
+const API_TOKEN = process.env.API_TOKEN;
+if (!API_TOKEN) {
+    throw new Error('API_TOKEN is not defined');
+}
 
 export const fetchMatches = async (date: string) => {
     const API_ENDPOINT = `https://api.football-data.org/v4/competitions/PL/matches?dateFrom=${date}&dateTo=${date}`;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Spinner = () => {
+const Loading = () => {
     return (
         // ローディング時のスピナー(上下中央に表示) 
         <div className='flex items-center justify-center w-full h-full'>
@@ -9,4 +9,4 @@ const Spinner = () => {
     )
 }
 
-export default Spinner
+export default Loading

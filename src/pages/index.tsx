@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import useSWR from 'swr';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import Spinner from '@/components/Spinner';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -11,11 +12,17 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(today.toISOString().split('T')[0]);
   const { data: matchesData, error } = useSWR(`/api/matches?date=${selectedDate}`, fetcher);
 
-  if (error) return <div>エラーが発生しました。</div>;
+  if (error)
+    return (
+      <div className='flex items-center justify-center w-full h-screen'>
+        <Error />
+      </div>
+    );
+
   if (!matchesData)
     return (
       <div className='flex items-center   justify-center w-full h-screen'>
-        <Spinner />
+        <Loading />
       </div>
     );
 
@@ -78,7 +85,7 @@ export default function Home() {
                   {match.score.fullTime.home} - {match.score.fullTime.away}
                   <br />
                   {/* 開催地 */}
-                  
+
                 </td>
                 <td className='w-1/3 flex flex-row justify-center items-center'>
                   <Image src={match.awayTeam.crest} alt={`${match.awayTeam.name} エンブレム`} width={30} height={30} />
