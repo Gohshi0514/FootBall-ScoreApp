@@ -47,8 +47,8 @@ export default function Home() {
 
   const generateTabs = () => {
     const tabs = [];
-    const daysBeforeToday = 3; // 今日の前に表示する日数
-    const daysAfterToday = 3;  // 今日の後に表示する日数
+    const daysBeforeToday = 4; // 今日の前に表示する日数
+    const daysAfterToday = 4;  // 今日の後に表示する日数
 
     for (let i = -daysBeforeToday; i <= daysAfterToday; i++) {
       const date = new Date(today);
@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center w-full px-5 md:px-0'>
-      <div className="sm:flex sm:justify-center sm:items-center sm:w-full sm:my-4">
+      <div className="flex flex-wrap justify-center items-center w-full my-4">
         {generateTabs().map(date => (
           <button key={date} onClick={() => setSelectedDate(date)} className={selectedDate === date ? 'bg-gray-800 text-white px-4 py-2 m-1 rounded-md' : 'px-4 py-2 m-1 rounded-md border border-gray-300'}>
             {date.split('-').slice(1).join('/')}
@@ -74,13 +74,13 @@ export default function Home() {
           </button>
         ))}
       </div>
-      <div className="flex justify-center items-center w-full mb-4">
-        <h1 className="text-center text-xl font-bold">
+      <div className="flex justify-center items-center w-full my-2">
+        <h1 className="flex justify-center items-center text-2xl font-bold">
           {selectedDate} ({getDayOfWeek(selectedDate)})
         </h1>
       </div>
-      <div className="flex justify-center items-center w-full px-5 md:px-0">
-        <table className='flex flex-col items-center justify-center w-full md:w-1/3 mx-auto my-4 rounded-md shadow-md border-collapse border border-gray-300'>
+      <div className="flex justify-center items-center w-full px-3 md:px-0">
+        <table className='flex flex-col items-center justify-center w-full md:w-2/3 mx-auto my-4 rounded-md shadow-md border-collapse border border-gray-300'>
           <thead className='w-full text-white bg-gray-800 rounded-t-md'>
             <tr className='flex flex-row justify-around w-full p-2'>
               <th className='md:w-1/3 flex-none flex-shrink-0'>HOME</th>
