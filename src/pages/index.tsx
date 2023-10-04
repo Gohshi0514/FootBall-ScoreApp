@@ -83,9 +83,10 @@ export default function Home() {
         <table className='flex flex-col items-center justify-center w-full md:w-1/3 mx-auto my-4 rounded-md shadow-md border-collapse border border-gray-300'>
           <thead className='w-full text-white bg-gray-800 rounded-t-md'>
             <tr className='flex flex-row justify-around w-full p-2'>
-              <th className='md:w-1/3 flex-none flex-shrink-0'>ホーム</th>
-              <th className='md:w-1/3 flex-none flex-shrink-0'>得点</th>
-              <th className='md:w-1/3 flex-none flex-shrink-0'>アウェイ</th>
+              <th className='md:w-1/3 flex-none flex-shrink-0'>HOME</th>
+              <th className='md:w-1/3 flex-none flex-shrink-0'></th>
+              <th className='md:w-1/3 flex-none flex-shrink-0'>AWAY</th>
+              
             </tr>
           </thead>
           <tbody className='flex flex-col w-full text-center divide-y divide-gray-300'>

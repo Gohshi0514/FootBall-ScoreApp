@@ -46,7 +46,7 @@ const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ sta
 
     return (
         <div className='flex flex-col items-center justify-center w-full px-5 md:px-0'>
-            <div className='flex flex-col items-center justify-center w-2/3 mx-auto px-5 md:px-0'>
+            <div className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto px-5 md:px-0'>
                 <table className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto my-4 rounded-md shadow-md'>
                     <thead className='w-full text-white bg-gray-800 rounded-t-md'>
                         <tr className='flex flex-row justify-around w-full p-2'>
