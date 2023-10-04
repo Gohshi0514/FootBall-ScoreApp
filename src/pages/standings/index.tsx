@@ -1,39 +1,51 @@
 import React from 'react';
 import Image from 'next/image';
-import useSWR from 'swr';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+import { fetchStandings } from '@/utils/fetchData';
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+interface TeamInfo {
+    id: React.Key;
+    crest: string;
+    name: string;
+}
 
-const Standings: React.FC = () => {
-    const { data: standingsData, error: standingsError } = useSWR('/api/standings', fetcher);
+interface TeamStanding {
+    id: React.Key;
+    position: number;
+    team: TeamInfo;
+    name: string;
+    points: number;
+    playedGames: number;
+    won: number;
+    draw: number;
+    lost: number;
+    goalsFor: number;
+    goalsAgainst: number;
+    goalDifference: number;
+}
 
-    if (standingsError)
+
+
+const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ standingsData, error }) => {
+    if (error) {
         return (
             <div className='flex items-center justify-center w-full h-screen'>
                 <Error />
             </div>
         );
-    if (!standingsData)
+    }
+
+    if (!standingsData || !standingsData.standings || standingsData.standings.length === 0) {
         return (
-            <div className='flex items-center   justify-center w-full h-screen'>
+            <div className='flex items-center justify-center w-full h-screen'>
                 <Loading />
             </div>
         );
+    }
 
     return (
-        <>
-            <h1>
-                <Image
-                    src={standingsData.competition.emblem}
-                    alt={`${standingsData.competition.name} エンブレム`}
-                    className='mx-auto'
-                    width={150}
-                    height={150}
-                />
-            </h1>
+        <div className='flex flex-col items-center justify-center w-full px-5 md:px-0'>
             <div className='flex flex-col items-center justify-center w-2/3 mx-auto px-5 md:px-0'>
                 <table className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto my-4 rounded-md shadow-md'>
                     <thead className='w-full text-white bg-gray-800 rounded-t-md'>
@@ -51,10 +63,10 @@ const Standings: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody className='flex flex-col w-full text-center divide-y divide-gray-300'>
-                        {standingsData.standings[0].table.map((team: { id: React.Key | null | undefined; position: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; team: { crest: string | StaticImport; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }; name: any; points: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; playedGames: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; won: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; draw: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; lost: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; goalsFor: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; goalsAgainst: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; goalDifference: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }) => {
+                        {standingsData.standings[0].table.map((team: TeamStanding) => {
                             return (
                                 <tr
-                                    key={team.id}
+                                    key={team.team.id}
                                     className='flex flex-row justify-around w-full p-2 hover:bg-gray-200'
                                 >
                                     <td className='w-1/12 flex-none flex-shrink-0 font-medium text-sm md:text-lg'>
@@ -86,8 +98,29 @@ const Standings: React.FC = () => {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
+}
+
+//静的生成で順位表のデータを取得する
+export async function getStaticProps() {
+    try {
+        const standingsData = await fetchStandings();
+        return {
+            props: {
+                standingsData,
+                error: null
+            },
+            revalidate: 60 * 60
+        };
+    } catch (err) {
+        return {
+            props: {
+                standingsData: null,
+                error: 'エラーが発生しました。'
+            }
+        };
+    }
 }
 
 export default Standings;

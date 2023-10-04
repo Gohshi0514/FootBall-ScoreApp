@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import useSWR from 'swr';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+interface Team {
+  crest: string;
+  name: string;
+}
+
+interface Score {
+  fullTime: {
+    home: number;
+    away: number;
+  };
+}
+
+interface Match {
+  status: string;
+  id: React.Key;
+  homeTeam: Team;
+  score: Score;
+  awayTeam: Team;
+}
 
 export default function Home() {
   const today = new Date();
@@ -28,9 +47,12 @@ export default function Home() {
 
   const generateTabs = () => {
     const tabs = [];
-    for (let i = 7; i >= 0; i--) {
+    const daysBeforeToday = 3; // 今日の前に表示する日数
+    const daysAfterToday = 3;  // 今日の後に表示する日数
+
+    for (let i = -daysBeforeToday; i <= daysAfterToday; i++) {
       const date = new Date(today);
-      date.setDate(today.getDate() - i);
+      date.setDate(today.getDate() + i);
       tabs.push(date.toISOString().split('T')[0]);
     }
     return tabs;
@@ -73,7 +95,7 @@ export default function Home() {
                 <td colSpan={3}>試合はありません。</td>
               </tr>
             )}
-            {matchesData.matches.map((match: { id: React.Key | null | undefined; homeTeam: { crest: string | StaticImport; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }; score: { fullTime: { home: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; away: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }; }; awayTeam: { crest: string | StaticImport; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }; }) => (
+            {matchesData.matches.map((match: Match) => (
               <tr key={match.id} className='flex flex-row justify-around w-full p-2 hover:bg-gray-200'>
                 <td className='w-1/3 flex flex-row justify-center items-center'>
                   <Image src={match.homeTeam.crest} alt={`${match.homeTeam.name} エンブレム`} width={30} height={30} />
@@ -81,11 +103,17 @@ export default function Home() {
                     {match.homeTeam.name}
                   </small>
                 </td>
-                <td className='w-1/3 flex flex-row justify-center items-center'>
-                  {match.score.fullTime.home} - {match.score.fullTime.away}
-                  <br />
-                  {/* 開催地 */}
-
+                <td className='w-1/3 flex flex-col justify-center items-center'>
+                  {match.status === 'FINISHED' && (
+                    <p className='text-center text-lg'>
+                      {match.score.fullTime.home} - {match.score.fullTime.away}
+                    </p>
+                  )}
+                  {match.status !== 'FINISHED' && matchesData.matches.length > 0 && (
+                    <small className="text-center text-gray-500 text-base">
+                      {new Date(matchesData.matches[0].utcDate).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
+                    </small>
+                  )}
                 </td>
                 <td className='w-1/3 flex flex-row justify-center items-center'>
                   <Image src={match.awayTeam.crest} alt={`${match.awayTeam.name} エンブレム`} width={30} height={30} />

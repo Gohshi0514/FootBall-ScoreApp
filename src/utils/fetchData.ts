@@ -34,3 +34,5 @@ export const fetchStandings = async () => {
 
     return response.json();
 };
+
+
