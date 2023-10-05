@@ -66,8 +66,8 @@ export default function Home() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center w-full px-5 md:px-0'>
-      <div className="flex flex-wrap justify-center items-center w-full my-4">
+    <div className='flex flex-col items-center justify-center w-full px-5 md:px-0 py-10'>
+      <div className="flex flex-wrap justify-center items-center w-full mt-4">
         {generateTabs().map(date => (
           <button key={date} onClick={() => setSelectedDate(date)} className={selectedDate === date ? 'bg-gray-800 text-white px-4 py-2 m-1 rounded-md' : 'px-4 py-2 m-1 rounded-md border border-gray-300'}>
             {date.split('-').slice(1).join('/')}
@@ -75,7 +75,7 @@ export default function Home() {
           </button>
         ))}
       </div>
-      <div className="flex justify-center items-center w-full my-2">
+      <div className="flex justify-center items-center w-full mt-2 ">
         <h1 className="flex justify-center items-center text-2xl font-bold">
           {selectedDate} ({getDayOfWeek(selectedDate)})
         </h1>
