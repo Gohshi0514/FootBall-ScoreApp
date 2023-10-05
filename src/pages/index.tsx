@@ -3,6 +3,9 @@ import Image from 'next/image';
 import useSWR from 'swr';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -67,17 +70,28 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center w-full px-5 md:px-0 py-10'>
-      <div className="flex flex-wrap justify-center items-center w-full mt-4">
-        {generateTabs().map(date => (
-          <button key={date} onClick={() => setSelectedDate(date)} className={selectedDate === date ? 'bg-gray-800 text-white px-4 py-2 m-1 rounded-md' : 'px-4 py-2 m-1 rounded-md border border-gray-300'}>
-            {date.split('-').slice(1).join('/')}
-            ({getDayOfWeek(date)})
-          </button>
-        ))}
+      <div className="flex flex-wrap justify-center items-center w-full mt-2">
+      <FormControl>
+          <InputLabel htmlFor="date-native-select">日付を選択</InputLabel>
+          <NativeSelect
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            inputProps={{
+              name: 'date',
+              id: 'date-native-select',
+            }}
+          >
+            {generateTabs().map(date => (
+              <option key={date} value={date}>
+                {date.split('-').slice(1).join('/')} ({getDayOfWeek(date)})
+              </option>
+            ))}
+          </NativeSelect>
+        </FormControl>
       </div>
       <div className="flex justify-center items-center w-full mt-2 ">
         <h1 className="flex justify-center items-center text-2xl font-bold">
-          {selectedDate} ({getDayOfWeek(selectedDate)})
+          {/* {selectedDate} ({getDayOfWeek(selectedDate)}) */}
         </h1>
       </div>
       <div className="flex justify-center items-center w-full px-3 md:px-0">
