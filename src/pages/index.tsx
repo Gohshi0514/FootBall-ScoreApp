@@ -19,6 +19,7 @@ interface Score {
 }
 
 interface Match {
+  utcDate: string | number | Date;
   status: string;
   id: React.Key;
   homeTeam: Team;
@@ -86,7 +87,7 @@ export default function Home() {
               <th className='md:w-1/3 flex-none flex-shrink-0'>HOME</th>
               <th className='md:w-1/3 flex-none flex-shrink-0'></th>
               <th className='md:w-1/3 flex-none flex-shrink-0'>AWAY</th>
-              
+
             </tr>
           </thead>
           <tbody className='flex flex-col w-full text-center divide-y divide-gray-300'>
@@ -110,12 +111,13 @@ export default function Home() {
                       {match.score.fullTime.home} - {match.score.fullTime.away}
                     </p>
                   )}
-                  {match.status !== 'FINISHED' && matchesData.matches.length > 0 && (
+                  {match.status !== 'FINISHED' && (
                     <small className="text-center text-gray-500 text-base">
-                      {new Date(matchesData.matches[0].utcDate).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(match.utcDate).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
                     </small>
                   )}
                 </td>
+
                 <td className='w-1/3 flex flex-row justify-center items-center'>
                   <Image src={match.awayTeam.crest} alt={`${match.awayTeam.name} エンブレム`} width={30} height={30} />
                   <small className='text-xs text-gray-500 rounded-full ml-2'>
