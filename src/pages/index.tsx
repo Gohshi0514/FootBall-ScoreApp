@@ -70,10 +70,15 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center w-full px-5 md:px-0 py-10'>
-      <div className="flex flex-wrap justify-center items-center w-full mt-2">
-      <FormControl>
-          <InputLabel htmlFor="date-native-select">日付を選択</InputLabel>
+      <div className="flex flex-wrap justify-center items-center w-full mb-2">
+        <FormControl>
+          <InputLabel
+            htmlFor="date-native-select"
+          >
+            日付を選択
+          </InputLabel>
           <NativeSelect
+            className='w-full'
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             inputProps={{
@@ -88,11 +93,6 @@ export default function Home() {
             ))}
           </NativeSelect>
         </FormControl>
-      </div>
-      <div className="flex justify-center items-center w-full mt-2 ">
-        <h1 className="flex justify-center items-center text-2xl font-bold">
-          {/* {selectedDate} ({getDayOfWeek(selectedDate)}) */}
-        </h1>
       </div>
       <div className="flex justify-center items-center w-full px-3 md:px-0">
         <table className='flex flex-col items-center justify-center w-full md:w-2/3 mx-auto my-4 rounded-md shadow-md border-collapse border border-gray-300'>
