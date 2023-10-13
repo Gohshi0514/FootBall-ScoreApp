@@ -21,6 +21,7 @@ const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ sta
         );
     }
 
+
     return (
         <div className='flex flex-col items-center justify-center w-full py-10'>
             <div className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto px-5 md:px-0'>
