@@ -13,18 +13,11 @@ export default function Home() {
   const { data: matchesData, error } = useSWR(`/api/matches?date=${selectedDate}`, fetcher);
 
   if (error)
-    return (
-      <div className='flex items-center justify-center w-full h-screen'>
-        <Error />
-      </div>
-    );
+    return <Error />;
+  
   if (!matchesData)
-    return (
-      <div className='flex items-center justify-center w-full h-screen'>
-        <Loading />
-      </div>
-    );
-
+    return <Loading />;
+    
   return (
     <div className='flex flex-col items-center justify-center w-full px-5 md:px-0 py-10'>
       <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} />

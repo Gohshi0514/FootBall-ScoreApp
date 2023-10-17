@@ -7,7 +7,7 @@ const Error: React.FC = () => {
     }
 
     return (
-        <div className='flex items-center justify-center w-full h-screen'>
+        <div className='flex items-center justify-center w-full min-h-screen flex-col'>
             <div>データの取得中にエラーが発生しました。</div>
             {/* 更新 */}
             <button

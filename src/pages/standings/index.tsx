@@ -6,19 +6,11 @@ import StandingsTable from '@/components/StandingsTable';
 
 const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ standingsData, error }) => {
     if (error) {
-        return (
-            <div className='flex items-center justify-center w-full h-screen'>
-                <Error />
-            </div>
-        );
+        return <Error />
     }
 
     if (!standingsData || !standingsData.standings || standingsData.standings.length === 0) {
-        return (
-            <div className='flex items-center justify-center w-full h-screen'>
-                <Loading />
-            </div>
-        );
+        return <Loading />
     }
 
 
