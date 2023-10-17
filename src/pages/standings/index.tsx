@@ -1,8 +1,8 @@
 import React from 'react';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
-import { fetchStandings } from '@/utils/fetchData';
 import StandingsTable from '@/components/StandingsTable';
+import { fetchStandings } from '../api/matches';
 
 const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ standingsData, error }) => {
     if (error) {
@@ -12,7 +12,6 @@ const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ sta
     if (!standingsData || !standingsData.standings || standingsData.standings.length === 0) {
         return <Loading />
     }
-
 
     return (
         <div className='flex flex-col items-center justify-center w-full py-10'>
@@ -31,7 +30,7 @@ export async function getStaticProps() {
                 standingsData,
                 error: null
             },
-            revalidate: 60 * 60
+            // revalidate: 60 * 60
         };
     } catch (err) {
         return {

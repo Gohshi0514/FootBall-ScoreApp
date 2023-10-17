@@ -5,7 +5,6 @@ import Error from '@/components/Error';
 import DateSelector from '@/components/DateSelector';
 import MatchTable from '@/components/MatchTable';
 
-
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function Home() {
@@ -14,10 +13,10 @@ export default function Home() {
 
   if (error)
     return <Error />;
-  
+
   if (!matchesData)
     return <Loading />;
-    
+
   return (
     <div className='flex flex-col items-center justify-center w-full px-5 md:px-0 py-10'>
       <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
