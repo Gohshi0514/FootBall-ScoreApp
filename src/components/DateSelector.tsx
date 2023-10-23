@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import NativeSelect from '@mui/material/NativeSelect';
@@ -28,6 +28,14 @@ const DateSelector: React.FC<DateSelectorProps> = ({ selectedDate, setSelectedDa
     const days = ['日', '月', '火', '水', '木', '金', '土'];
     return days[date.getDay()];
   };
+
+  // 初回レンダリング時にselectedDateがtabsに含まれていない場合はtabsの先頭を選択する
+  useEffect(() => {
+    const tabs = generateTabs();
+    if (!tabs.includes(selectedDate)) {
+      setSelectedDate(tabs[0]);
+    }
+  }, [selectedDate, setSelectedDate]);
 
   return (
     <FormControl>

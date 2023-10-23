@@ -9,7 +9,7 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const { data: matchesData, error } = useSWR(`/api/matches?date=${selectedDate}`, fetcher);
+  const { data: matchesData, error } = useSWR(`/api/matches?date=${selectedDate}`, fetcher); // ここでfetcherを使うことで、fetcherの中身が実行される
 
   if (error)
     return <Error />;

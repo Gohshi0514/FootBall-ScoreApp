@@ -33,7 +33,8 @@ export const fetchStandings = async () => {
   return response.json();
 };
 
-//試合情報を取得するAPI
+
+// 試合情報を取得するAPI
 const getMatches = async (req: NextApiRequest, res: NextApiResponse) => {
   const { date } = req.query;
   try {
