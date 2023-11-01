@@ -30,7 +30,7 @@ export async function getStaticProps() {
                 standingsData,
                 error: null
             },
-            // revalidate: 60 * 60
+            revalidate: 60 * 60 * 24 // 24時間ごとに再生成
         };
     } catch (err) {
         return {
