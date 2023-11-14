@@ -19,23 +19,16 @@ const checkApiResponse = (response: Response) => {
   }
 };
 
-//試合情報を取得する関数
+
+//試合情報を取得する関数(API呼び出し用)
 export const fetchMatches = async (date: string) => {
   const response = await fetch(`${API_BASE_URL}/matches?dateFrom=${date}&dateTo=${date}`, { headers });
   checkApiResponse(response);
   return response.json();
 };
 
-//順位表を取得する関数
-export const fetchStandings = async () => {
-  const response = await fetch(`${API_BASE_URL}/standings`, { headers });
-  checkApiResponse(response);
-  return response.json();
-};
-
-
 // 試合情報を取得するAPI
-const getMatches = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function getMatches(req: NextApiRequest, res: NextApiResponse) {
   const { date } = req.query;
   try {
     const data = await fetchMatches(date as string);
@@ -45,4 +38,12 @@ const getMatches = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default getMatches;
+
+//順位表を取得する関数(SSR用)
+export const fetchStandings = async () => {
+  const response = await fetch(`${API_BASE_URL}/standings`, { headers });
+  checkApiResponse(response);
+  return response.json();
+};
+
+
