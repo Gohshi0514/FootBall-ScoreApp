@@ -22,7 +22,7 @@ const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ sta
     );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     try {
         const standingsData = await fetchStandings();
         return {
@@ -30,7 +30,6 @@ export async function getStaticProps() {
                 standingsData,
                 error: null
             },
-            revalidate: 60 * 60 * 24 // 24時間ごとに再生成
         };
     } catch (err) {
         return {
