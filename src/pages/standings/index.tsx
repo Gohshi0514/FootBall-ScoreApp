@@ -1,24 +1,23 @@
 import React from 'react';
-import Loading from '@/components/Loading';
-import Error from '@/components/Error';
+import Head from 'next/head';
 import StandingsTable from '@/components/StandingsTable';
 import { fetchStandings } from '../api/matches';
 
-const Standings: React.FC<{ standingsData: any, error: string | null }> = ({ standingsData, error }) => {
-    if (error) {
-        return <Error />
-    }
-
-    if (!standingsData || !standingsData.standings || standingsData.standings.length === 0) {
-        return <Loading />
-    }
+const Standings: React.FC<{ standingsData: any }> = ({ standingsData }) => {
 
     return (
-        <div className='flex flex-col items-center justify-center w-full py-10'>
-            <div className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto px-5 md:px-0'>
-                <StandingsTable standings={standingsData.standings[0].table} />
-            </div>
-        </div>
+        <>
+            <Head>
+                <title>Standings | Football App</title>
+                <meta name='description' content='Standings Page' />
+                <link rel='icon' href='/favicon.ico' />
+            </Head>
+                <div className='flex flex-col items-center justify-center w-full py-10'>
+                    <div className='flex flex-col items-center justify-center w-full md:w-3/4 mx-auto px-5 md:px-0'>
+                        <StandingsTable standings={standingsData.standings[0].table} />
+                    </div>
+                </div>
+        </>
     );
 }
 
