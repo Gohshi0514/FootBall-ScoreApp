@@ -22,7 +22,7 @@ const Standings: React.FC<{ standingsData: any }> = ({ standingsData }) => {
     );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     try {
         const standingsData = await fetchStandings();
         return {
@@ -30,6 +30,7 @@ export async function getServerSideProps() {
                 standingsData,
                 error: null
             },
+            revalidate: 60
         };
     } catch (err) {
         return {
