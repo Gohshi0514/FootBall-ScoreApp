@@ -13,7 +13,7 @@ const Navbar = () => {
             src="/logo.png"
             alt="logo"
             className='object-contain'
-            width={150}
+            width={120}
             height={30}
           />
 
